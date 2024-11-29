@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>QR Code Generator</h1>
+    <input type="text" id="inputValue" placeholder="Enter text or link here...">
+
+    <div class="buttons">
+      <button onclick="generateQRCode()">Generate QR</button>
+      <button id="downloadBtn" onclick="downloadQRCode()" style="display: none;">Download as Image</button>
+    </div>
+
+    <div id="qrcode"></div>
+
+    <div id="error-message" class="error-message"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
