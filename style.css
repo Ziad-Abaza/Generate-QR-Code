@@ -1,0 +1,152 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #eef2f3, #8e9eab);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+  animation: fadeIn 1s ease-out;
+}
+
+.container {
+  background: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  transform: translateY(20px);
+  animation: slideUp 0.7s ease-out forwards;
+}
+
+header h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #34495e;
+  animation: fadeIn 1s ease-out;
+}
+
+header p {
+  color: #7f8c8d;
+  margin-bottom: 20px;
+  animation: fadeIn 1.2s ease-out;
+}
+
+form {
+  display: grid;
+  gap: 15px;
+}
+
+.form-group {
+  text-align: left;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #34495e;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-top: 5px;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #4267b2;
+  box-shadow: 0 0 5px rgba(66, 103, 178, 0.5);
+  transition: 0.3s;
+}
+
+button {
+  background-color: #4267b2;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+  opacity: 0;
+  animation: fadeIn 0.7s ease-out 0.3s forwards;
+}
+
+button:hover {
+  background-color: #365899;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 5px;
+  display: none;
+}
+
+#canvas {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 1s forwards;
+}
+
+.color-picker {
+  margin-top: 10px;
+  height: 40px;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: inline-block;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 1.2s forwards;
+}
+
+.color-picker .pcr-button {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.pickr .pcr-button {
+  border: #8e9eab 1px solid !important;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

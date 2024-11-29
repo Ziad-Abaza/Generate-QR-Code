@@ -5,25 +5,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Code Generator</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css">
 </head>
 
 <body>
   <div class="container">
-    <h1>QR Code Generator</h1>
-    <input type="text" id="inputValue" placeholder="Enter text or link here...">
-
-    <div class="buttons">
-      <button onclick="generateQRCode()">Generate QR</button>
-      <button id="downloadBtn" onclick="downloadQRCode()" style="display: none;">Download as Image</button>
-    </div>
-
-    <div id="qrcode"></div>
-
-    <div id="error-message" class="error-message"></div>
+    <header>
+      <h1>QR Code Generator</h1>
+      <p>Customize and create your own stylish QR Code</p>
+    </header>
+    <form id="qr-form">
+      <div class="form-group">
+        <label for="data">Text or URL</label>
+        <input type="text" id="data" placeholder="Enter your text or URL" required>
+        <span class="error-message" id="data-error"></span>
+      </div>
+      <div class="form-group">
+        <label for="dot-color-picker">Dot Color</label>
+        <div id="dot-color-picker" class="color-picker"></div>
+      </div>
+      <div class="form-group">
+        <label for="background-color-picker">Background Color</label>
+        <div id="background-color-picker" class="color-picker"></div>
+      </div>
+      <div class="form-group">
+        <label for="shape">Dot Shape</label>
+        <select id="shape">
+          <option value="square">Square</option>
+          <option value="dots">Dots</option>
+        </select>
+      </div>
+      <button type="submit" id="generate">Generate QR Code</button>
+      <button id="download" style="display: none;">Download QR Code</button>
+    </form>
+    <div id="canvas"></div>
   </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr"></script>
   <script src="script.js"></script>
 </body>
 

@@ -1,71 +1,114 @@
-function showError(message) {
-  const errorMessage = document.getElementById("error-message");
-  errorMessage.textContent = message;
-  errorMessage.style.display = "block"; 
-}
+const dataInput = document.getElementById("data");
+const shapeInput = document.getElementById("shape");
+const form = document.getElementById("qr-form");
+const canvasContainer = document.getElementById("canvas");
+const dataError = document.getElementById("data-error");
+const downloadButton = document.getElementById("download");
 
-function hideError() {
-  const errorMessage = document.getElementById("error-message");
-  errorMessage.style.display = "none"; 
-}
+let qrCode = new QRCodeStyling({
+  width: 300,
+  height: 300,
+  data: "",
+  dotsOptions: {
+    color: "#4267b2",
+    type: "square",
+  },
+  backgroundOptions: {
+    color: "#ffffff",
+  },
+});
 
-function generateQRCode() {
-  const inputValue = document.getElementById("inputValue").value;
+const dotColorPicker = Pickr.create({
+  el: "#dot-color-picker",
+  theme: "nano",
+  default: "#222",
+  components: {
+    preview: true,
+    opacity: true,
+    hue: true,
+    interaction: {
+      hex: true,
+      rgba: true,
+      input: true,
+      clear: false,
+      save: true,
+    },
+  },
+});
 
-  if (!inputValue) {
-    showError("Please enter text or a link.");
+const backgroundColorPicker = Pickr.create({
+  el: "#background-color-picker",
+  theme: "nano",
+  default: "#ffffff",
+  components: {
+    preview: true,
+    opacity: true,
+    hue: true,
+    interaction: {
+      hex: true,
+      rgba: true,
+      input: true,
+      clear: false,
+      save: true,
+    },
+  },
+});
+
+const handleFormSubmit = (e) => {
+  e.preventDefault();
+
+  const data = dataInput.value.trim();
+  const shape = shapeInput.value;
+
+  if (!data) {
+    dataError.textContent = "Please enter valid text or URL.";
+    dataError.style.display = "block";
     return;
   }
 
-  hideError(); 
-  
+  if (data.length > 255) {
+    dataError.textContent =
+      "Input is too long. Please limit it to 255 characters.";
+    dataError.style.display = "block";
+    return;
+  }
+
   try {
-    QRCode.toDataURL(inputValue, function (err, url) {
-      if (err) {
-        console.error("Error generating QR Code:", err);
-        showError(
-          "An error occurred while generating the QR code. Please try again."
-        );
-        return;
-      }
-      document.getElementById(
-        "qrcode"
-      ).innerHTML = `<img src="${url}" alt="QR Code">`;
-      document.getElementById("downloadBtn").style.display = "inline-block";
+    qrCode.update({
+      data: data,
+      dotsOptions: {
+        color: dotColorPicker.getColor().toHEXA().toString(),
+        type: shape,
+      },
+      backgroundOptions: {
+        color: backgroundColorPicker.getColor().toHEXA().toString(),
+      },
     });
+
+    canvasContainer.innerHTML = "";
+    qrCode.append(canvasContainer);
+    downloadButton.style.display = "block";
   } catch (error) {
-    console.error("Unexpected error during QR code generation:", error);
-    showError("An unexpected error occurred. Please try again.");
+    dataError.textContent =
+      "An error occurred while generating the QR code. Please try again.";
+    dataError.style.display = "block";
   }
-}
+};
 
-function downloadQRCode() {
-  const qrCodeImage = document.querySelector("#qrcode img");
+form.addEventListener("submit", handleFormSubmit);
 
-  if (!qrCodeImage) {
-    showError(
-      "QR Code has not been generated yet. Please generate a QR code first."
-    );
-    return;
+form.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    handleFormSubmit(e);
   }
+});
 
-  try {
-    const link = document.createElement("a");
-    link.href = qrCodeImage.src;
-    link.download = "qrcode.png";
-    link.click();
-  } catch (error) {
-    console.error("Error downloading the QR Code:", error);
-    showError(
-      "An error occurred while downloading the QR code. Please try again."
-    );
-  }
-}
-
-document
-  .getElementById("inputValue")
-  .addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      generateQRCode(); 
-    }
-  });
+downloadButton.addEventListener("click", () => {
+  const imageUrl = qrCode.getRawData("canvas").toDataURL("image/png");
+  const link = document.createElement("a");
+  link.href = imageUrl;
+  link.download = "qr-code.png";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
