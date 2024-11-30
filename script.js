@@ -103,12 +103,15 @@ form.addEventListener("keypress", (e) => {
   }
 });
 
-downloadButton.addEventListener("click", () => {
-  const imageUrl = qrCode.getRawData("canvas").toDataURL("image/png");
-  const link = document.createElement("a");
-  link.href = imageUrl;
-  link.download = "qr-code.png";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+downloadButton.addEventListener("click", async () => {
+  try {
+    qrCode.download({
+      name: "qr-code",
+      extension: "png", // You can use "png" or "svg"
+    });
+  } catch (error) {
+    console.error("Error downloading QR Code:", error.message);
+  }
 });
+
+
